@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #fff;
+  }
+  th,td {
+    border: 1px solid black;
+  }
+  tr:nth-child(even) {
+    background-color: #c8c7c7;
+  }
+</style>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th onclick="sortColumn('name')" >Name</th>
+        <th onclick="sortColumn('age')">Age</th>
+      </tr>
+    </thead>
+    <tbody id='tableBody'></tbody>
+  </table>
+  <script>
+    let personData = [
+      {name: 'Elsa', age: 21},
+      {name: 'Kira', age: 24},
+      {name: 'Candy', age: 39},
+      {name: 'Nicole', age: 28},
+      {name: 'Shylla', age: 34},
+      {name: 'Lana', age: 27}
+    ]
+    let sortDirection = false;
+    const loadTableData = (personData) => {
+      const tableBody = document.getElementById('tableBody');
+      let dataHtml = '';
+      for (let person of personData) {
+        dataHtml += `<tr>
+          <td>${person.name}</td><td>${person.age}</td>
+        </tr>`
+      }
+      tableBody.innerHTML = dataHtml;
+    }
+    loadTableData(personData);
+    const sortColumn = (colName) => {
+      const dataType = typeof personData[0][colName];
+      sortDirection = !sortDirection;
+      switch(dataType) {
+        case 'number':
+        sortNumberColumn(sortDirection, colName)
+        break;
+        case 'string':
+        sortTextCoumn(sortDirection, colName)
+        break;
+      }
+      loadTableData(personData)
+    }
+    const sortNumberColumn = (sort, colName) => {
+      return personData.sort((p1, p2) => {
+        return sort ? p1[colName] - p2[colName] : p2[colName] - p1[colName]
+      })
+    }
+    const sortTextCoumn = (sort, colName) => {
+      return personData.sort((p1, p2) => {
+        return sort ? (p1[colName] > p2[colName])-(p1[colName] < p2[colName]) : (p2[colName] > p1[colName]) - (p2[colName] < p1[colName])
+      })
+    }
+    // let nums = [6,14,32,5,12,86,102,3];
+    // nums.sort((a,b) => a - b); //asc
+    // nums.sort((a, b) => b - a); //desc
+    // let words = ['some', 'words', 'carrot', 'water', 'apple', 'bank'];
+    // words.sort((a, b) => (a > b) - (a < b)); //asc
+    // words.sort((a, b) => (b > a) - (b < a)); //desc
+
+    
+
+
+  </script>
+</body>
+</html>
